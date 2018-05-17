@@ -27,5 +27,10 @@ namespace Microsoft.EntityFrameworkCore
         {
             throw new NotImplementedException();
         }
+
+        public static int DateDiff(string interval, DateTime initial, DateTime end)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

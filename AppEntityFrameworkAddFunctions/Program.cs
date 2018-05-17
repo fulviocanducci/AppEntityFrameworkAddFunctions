@@ -16,7 +16,7 @@ namespace AppEntityFrameworkAddFunctions
                     {
                         x.Id,
                         x.Name, 
-                        ca = (DateTime.Now.TimeOfDay - x.Created.TimeOfDay)
+                        ca = Functions.DateDiff("day", x.Created, DateTime.Now)
                     })
                     .ToList()
                     .ForEach(x =>

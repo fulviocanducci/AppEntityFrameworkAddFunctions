@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Expressions;
 using System;
+using System.Linq;
+using System.Linq.Expressions;
+
 namespace AppEntityFrameworkAddFunctions.Models
 {
     public sealed class Database: DbContext
@@ -71,6 +74,20 @@ namespace AppEntityFrameworkAddFunctions.Models
                 .HasTranslation(args =>
                 {
                     return new SqlFunctionExpression("DBO.SHORTDATE", typeof(DateTime), args);
+                });
+
+            modelBuilder.HasDbFunction(typeof(Functions).GetMethod(nameof(Functions.DateDiff)))
+                .HasName(nameof(Functions.DateDiff))
+                .HasTranslation(args =>
+                {
+                    Expression[] arr = args?.ToArray();                                        
+                    return new SqlFunctionExpression("DATEDIFF", typeof(DateTime), 
+                        new Expression[3] 
+                        {
+                            new SqlFragmentExpression((string)((ConstantExpression)arr[0]).Value),
+                            arr[1],
+                            arr[2]
+                        });
                 });
             #endregion
         }
